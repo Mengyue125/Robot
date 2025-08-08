@@ -206,7 +206,10 @@ export default {
   },
   mounted() {
     this.$axios
-      .get("http://web11557.y9.computerqwq.cf/Robot/public/index.php/banner")
+      .get(
+        // "http://web11557.y9.computerqwq.cf/Robot/public/index.php/banner"
+        '/api/banner'
+      )
       .then((res) => {
         // 复制banner数据并修改id以确保key值不同
         const originalBanners = res.data;
@@ -222,7 +225,8 @@ export default {
 
     this.$axios
       .get(
-        "http://web11557.y9.computerqwq.cf/Robot/public/index.php/banner/news"
+        // "http://web11557.y9.computerqwq.cf/Robot/public/index.php/banner/news"
+        '/api/banner/news'
       )
       .then((res) => {
         this.newsList = res.data;

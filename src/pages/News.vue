@@ -58,7 +58,8 @@ export default {
   mounted() {
     this.$axios
       .get(
-        "http://web11557.y9.computerqwq.cf/Robot/public/index.php/banner/news"
+        // "http://web11557.y9.computerqwq.cf/Robot/public/index.php/banner/news"
+        "/api/Robot/public/index.php/banner/news"
       )
       .then((res) => {
         this.newsList = res.data;
