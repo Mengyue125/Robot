@@ -1,5 +1,7 @@
 const { defineConfig } = require('@vue/cli-service')
 module.exports = defineConfig({
   transpileDependencies: true,
-  publicPath: './', // 使用相对路径
+  publicPath: process.env.NODE_ENV === 'production'
+    ? '/Robot/'  // 替换为你的仓库名
+    : '/'
 })
