@@ -6,7 +6,7 @@
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
     "lint": "vue-cli-service lint",
-    "deploy": "gh-pages -d dist"  // 合并到同一个 scripts 对象中
+    "deploy": "gh-pages -d dist"
   },
   "dependencies": {
     "animate.css": "^4.1.1",
