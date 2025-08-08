@@ -1,0 +1,13 @@
+{
+  "menu": {
+    "Home": "Home",
+    "News": "News",
+    "FAQ": "FAQ",
+    "Introduce": "Introduce",
+    "Team": "Our Team Member",
+    "Project": "Project",
+    "File": "File",
+    "Contact": "Contact us",
+    "Touch": "Get in Touch"
+  }
+}

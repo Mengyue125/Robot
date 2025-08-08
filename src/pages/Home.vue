@@ -1,0 +1,927 @@
+<template>
+  <div>
+    <!-- 加载动画 -->
+    <robot_Loading :loading="isLoading" />
+    <!--	内容-->
+    <article>
+      <!--		轮播图-->
+      <section class="banner item">
+        <transition-group class="imgList" tag="ul">
+          <li v-for="(v) in bannerList" :key="v.id">
+            <img
+              :src="require(`@/assets/${v.image_path}`)"
+              :alt="v.description"
+            />
+          </li>
+        </transition-group>
+        <div class="left_right">
+          <span @click="toggleBanner(1)">&lt;</span>
+          <span @click="toggleBanner(0)">&gt;</span>
+        </div>
+      </section>
+      <!--		新闻-->
+      <section class="news item" id="News">
+        <div class="news_title">
+          <h2 class="title" data-i18n="News">{{ $t('menu.News') }}</h2>
+          <div>
+            <span @click="toggleNew(1)">&larr;</span>
+            <span @click="toggleNew(0)">&rarr;</span>
+          </div>
+        </div>
+        <transition-group class="news_main" tag="ul">
+          <li v-for="v in newsList" :key="v.id">
+            <h3>{{ v.title }}</h3>
+            <p>{{ v.content }}</p>
+            <div>
+              <img
+                :src="require(`@/assets/${v.image_path}`)"
+                :alt="v.content"
+              />
+            </div>
+            <div>
+              {{ v.publish_time }}/Cat
+              <a :href="v.link_url">Read more</a>
+            </div>
+          </li>
+        </transition-group>
+      </section>
+      <!--		介绍-->
+      <section class="introduce item" id="Introduce">
+        <div>
+          <img src="../assets/img/1.jpg" alt="" />
+          <div>
+            <h2 class="title" data-i18n="Introduce">{{ $t('menu.Introduce') }}</h2>
+            <p>
+              As we go through our daily routines, we are constantly putting
+              tension on the clothes we wear. This tension then imbibes our
+              clothes with a sort of physical power, which Morinaga has set out
+              to visualize through light.
+            </p>
+            <p>
+              Mechanochromic technology is used as a sensory tool in
+              architectural structures to detect and visualize cracks ?sites of
+              stress or tension ?on a building through a phenomenon which turns
+              this tension into light.
+            </p>
+          </div>
+        </div>
+      </section>
+      <!-- 画廊 -->
+      <GallerySwiper />
+      <!-- 指导老师 -->
+      <section class="instruction item" id="instruction">
+        <div>
+          <h2 class="title" data-i18n="Team">{{ $t('menu.Team') }}</h2>
+          <span class="line"><span></span></span>
+          <ul class="instruction_list">
+            <li>
+              <div><img src="../assets/img/instruction1.png" alt="" /></div>
+              <div>
+                <h3>Name</h3>
+                <p>主指导</p>
+              </div>
+            </li>
+            <li>
+              <div><img src="../assets/img/instruction2.png" alt="" /></div>
+              <div>
+                <h3>Name</h3>
+                <p>主指导</p>
+              </div>
+            </li>
+            <li>
+              <div><img src="../assets/img/instruction3.png" alt="" /></div>
+              <div>
+                <h3>Name</h3>
+                <p>主指导</p>
+              </div>
+            </li>
+          </ul>
+        </div>
+      </section>
+      <!-- 项目 -->
+      <section class="project item" id="project">
+        <div class="project_title">
+          <h2 class="title" data-i18n="Project">{{ $t('menu.Project') }}</h2>
+          <div>
+            <span @click="toggleProject(1)">&larr;</span>
+            <span @click="toggleProject(0)">&rarr;</span>
+          </div>
+        </div>
+        <div class="project_main" ref="projectMain" :style="{ transform: projectTransform, transition: 'transform 0.5s ease' }">
+          <li>
+            <div>
+              <img src="../assets/img/project1.jpg" alt="" />
+            </div>
+            <div>
+              <h3>ICS Security and Continuity</h3>
+              <p>OT security and visibility for industrial control systems</p>
+              <div>
+                2022.12.12
+                <a href="News.html">Read more</a>
+              </div>
+            </div>
+          </li>
+          <li>
+            <div>
+              <img src="../assets/img/project1.jpg" alt="" />
+            </div>
+            <div>
+              <h3>ICS Security and Continuity</h3>
+              <p>OT security and visibility for industrial control systems</p>
+              <div>
+                2022.12.12
+                <a href="News.html">Read more</a>
+              </div>
+            </div>
+          </li>
+          <li>
+            <div>
+              <img src="../assets/img/project1.jpg" alt="" />
+            </div>
+            <div>
+              <h3>ICS Security and Continuity</h3>
+              <p>OT security and visibility for industrial control systems</p>
+              <div>
+                2022.12.12
+                <a href="News.html">Read more</a>
+              </div>
+            </div>
+          </li>
+          <li>
+            <div>
+              <img src="../assets/img/project1.jpg" alt="" />
+            </div>
+            <div>
+              <h3>ICS Security and Continuity</h3>
+              <p>OT security and visibility for industrial control systems</p>
+              <div>
+                2022.12.12
+                <a href="News.html">Read more</a>
+              </div>
+            </div>
+          </li>
+          <li>
+            <div>
+              <img src="../assets/img/project1.jpg" alt="" />
+            </div>
+            <div>
+              <h3>ICS Security and Continuity</h3>
+              <p>OT security and visibility for industrial control systems</p>
+              <div>
+                2022.12.12
+                <a href="News.html">Read more</a>
+              </div>
+            </div>
+          </li>
+        </div>
+      </section>
+      <!-- 图片展示 -->
+      <ExhibitionSwiper />
+    </article>
+  </div>
+</template>
+
+<script>
+import robot_Loading from "@/components/robot_Loading.vue";
+import { useAnimation } from "@/composables/useAnimation";
+import GallerySwiper from "@/components/GallerySwiper.vue";
+import ExhibitionSwiper from "@/components/ExhibitionSwiper.vue";
+export default {
+  name: "HomePage",
+  components: { robot_Loading ,ExhibitionSwiper,GallerySwiper},
+  setup() {
+    useAnimation();
+    return {};
+  },
+  data() {
+    return {
+      bannerList: [],
+      newsList: [],
+      isLoading:true,
+      num:0,
+      projectNum: 0,
+      projectItemsCount: 5, // 项目数量
+      projectTransform: 'translateX(0%)'
+    };
+  },
+  mounted() {
+    this.$axios
+      .get("http://web11557.y9.computerqwq.cf/Robot/public/index.php/banner")
+      .then((res) => {
+        // 复制banner数据并修改id以确保key值不同
+        const originalBanners = res.data;
+        const copiedBanners1 = originalBanners.map(banner => ({
+          ...banner,
+          id: banner.id + 1000 // 第一层复制，id+1000
+        }));
+        
+        this.bannerList = originalBanners.concat(copiedBanners1);
+        console.log(this.bannerList);
+        this.isLoading = false
+      });
+
+    this.$axios
+      .get(
+        "http://web11557.y9.computerqwq.cf/Robot/public/index.php/banner/news"
+      )
+      .then((res) => {
+        this.newsList = res.data;
+        console.log(this.newsList);
+      });
+  },
+  methods:{
+        toggleProject(v){
+          // v为1表示向左切换，为0表示向右切换
+          if(v){
+            this.projectNum--;
+            if(this.projectNum < 0){
+              this.projectNum = this.projectItemsCount - 1;
+            }
+          } else {
+            this.projectNum++;
+            if(this.projectNum >= this.projectItemsCount){
+              this.projectNum = 0;
+            }
+          }
+          
+          // 使用原生JS计算实际元素宽度（包括边距）
+          let offset = 0;
+          if (this.$refs.projectMain) {
+            const liElements = this.$refs.projectMain.querySelectorAll('li');
+            if (liElements.length > 0) {
+              const firstLi = liElements[0];
+              // 获取元素的外部宽度（包括边距）
+              const liWidth = firstLi.offsetWidth + parseFloat(getComputedStyle(firstLi).marginLeft) + parseFloat(getComputedStyle(firstLi).marginRight);
+              // 计算总宽度百分比
+              const containerWidth = this.$refs.projectMain.offsetWidth;
+              const liWidthPercentage = (liWidth / containerWidth) * 100;
+              // 计算偏移量百分比
+              offset = -(this.projectNum * liWidthPercentage);
+              this.projectTransform = `translateX(${offset}%)`;
+            }
+          }
+          
+          // 应用变换
+          this.projectTransform = `translateX(${offset}%)`;
+        },
+        toggleNew(v){
+          if(v){
+            const firstItem = this.newsList.shift();
+            this.newsList.push(firstItem);
+          }
+          else{
+            const lastItem = this.newsList.pop();
+            this.newsList.unshift(lastItem);
+          }
+        },
+        toggleBanner(v){
+          if(v){
+            const firstItem = this.bannerList.shift();
+            this.bannerList.push(firstItem);
+          }
+          else{
+            const lastItem = this.bannerList.pop();
+            this.bannerList.unshift(lastItem);
+          }
+        }
+  }
+};
+</script>
+
+<style scoped>
+/* CSS Document */
+.banner {
+  width: 100%;
+  position: relative;
+  overflow: hidden;
+  height: 56.25vw; /* 16:9 比例 */
+  max-height: 80vh; /* 可选的最大高度限制 */
+}
+
+.imgList li {
+  width: 200px;
+  position: absolute;
+  left: 100%;
+  top: calc(100% - 130px);
+  cursor: pointer;
+  transition: 1s ease;
+  height: 95px;
+  overflow: hidden;
+  z-index: 1;
+}
+
+.imgList li img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: 0% 70%;
+}
+
+.imgList li:nth-of-type(1) {
+  transition: none;
+}
+.imgList li:nth-of-type(1),
+.imgList li:nth-of-type(2) {
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  cursor: inherit;
+}
+
+.imgList li:nth-of-type(3) {
+  left: calc(50% - 310px);
+}
+.imgList li:nth-of-type(4) {
+  left: calc(50% - 100px);
+}
+.imgList li:nth-of-type(5) {
+  left: calc(50% + 110px);
+}
+
+.imgList li:last-of-type {
+  z-index: 0;
+}
+
+
+.left_right {
+  width: 100%;
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 30px;
+  z-index: 1;
+}
+
+.left_right span {
+  width: 60px;
+  height: 60px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: white;
+  border-radius: 50%;
+  font-size: 30px;
+  cursor: pointer;
+}
+
+/*新闻*/
+.news {
+  width: 80vw;
+  margin: 0 auto;
+  margin-top: 50px;
+}
+
+.news_title {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 15px;
+  margin-bottom: 5px;
+}
+
+.news_title > h2 {
+  margin-bottom: 0;
+}
+
+.news_title > div {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 15px;
+}
+
+.news_title > div > span {
+  width: 50px;
+  height: 50px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
+  cursor: pointer;
+  font-size: 30px;
+  border-radius: 10px;
+}
+
+.news_main {
+  position: relative;
+  overflow: hidden;
+  height: 650px;
+}
+
+/* .news_main>li{
+        position: absolute;
+        top: 100%;
+        left: calc(100% - 380px);
+        width: 350px;
+        padding: 15px;
+        margin: 15px;
+        box-shadow: 0px 0px 3px rgba(0,0,0,.2);
+        transition: 1s ease;
+        border-radius: 10px;
+        background: white;
+        color: rgba(19,36,88,1.00);
+    } */
+
+.news_main > li {  position: absolute;  top: -200%; /* 初始位置更靠上，完全不可见 */  left: calc(100% - 24vw);  width: 28%;  padding: 15px;  margin: 15px;  box-shadow: 0px 0px 3px rgba(0, 0, 0, 0.2);  transition: all 0.8s cubic-bezier(0.2, 0.8, 0.2, 1); /* 更平滑的过渡曲线 */  border-radius: 10px;  background: white;  color: rgba(19, 36, 88, 1);  z-index: 1;}
+
+.news_main > li > h3,
+.news_main > li > p {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 1;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.news_main > li > p {
+  color: #222;
+}
+
+.news_main > li > div:first-of-type {
+  width: 100%;
+  height: 0;
+  overflow: hidden;
+  transition: 0.5s;
+  border-radius: 10px;
+}
+
+.news_main > li > div:first-of-type img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+}
+
+.news_main > li > div:last-of-type {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  color: rgba(19, 36, 88, 1);
+}
+
+.news_main > li > div:last-of-type a {
+  color: rgba(19, 36, 88, 1);
+}
+
+.news_main > li:nth-of-type(1) {
+  top: -200% !important; /* 保持与其他条目一致的初始位置 */
+}
+
+.news_main > li:nth-of-type(1),
+.news_main > li:nth-of-type(2) {
+  width: 67%;
+  top: 0;
+  left: 0;
+  box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.1);
+}
+
+.news_main > li:nth-of-type(1) > div:first-of-type,
+.news_main > li:nth-of-type(2) > div:first-of-type {
+  height: 400px;
+  margin: 12px auto;
+}
+
+.news_main > li:nth-of-type(1) > p,
+.news_main > li:nth-of-type(2) > p {
+  -webkit-line-clamp: 3;
+}
+
+.news_main > li:nth-of-type(6) {
+  top: 0;
+}
+
+.news_main > li:nth-of-type(5) {
+  top: calc(calc(138px * 1) + 20px);
+}
+.news_main > li:nth-of-type(4) {
+  top: calc(calc(138px * 2) + 40px);
+}
+.news_main > li:nth-of-type(3) {
+  top: calc(calc(138px * 3) + 60px);
+}
+
+/* 修复选择器语法错误，解决飞入效果问题 */
+/* 确保退出的新闻条目层级最低，并完全隐藏 */
+.news_main > li.leave {
+  z-index: -1; /* 层级低于所有其他元素 */
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(100px);
+  transition: all 0.8s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+/* 确保当前显示的新闻条目层级更高 */
+.news_main > li:nth-of-type(1),
+.news_main > li:nth-of-type(2) {
+  z-index: 2;
+}
+
+/* 其他新闻条目保持基础层级 */
+.news_main > li:nth-of-type(n+3) {
+  z-index: 1;
+}
+
+.introduce {
+  width: 100%;
+  background: linear-gradient(
+    to right,
+    rgba(14, 42, 82, 1) 0 40%,
+    rgba(235, 239, 248, 1) 40% 100%
+  );
+  padding: 70px 0;
+  margin: 50px 0;
+  margin-bottom: 60px;
+}
+
+.introduce > div {
+  width: 860px;
+  padding: 20px;
+  margin: 0 auto;
+  background: white;
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  justify-content: space-between;
+}
+
+.introduce > div > img {
+  width: 48%;
+}
+
+.introduce > div > div {
+  width: 50%;
+  color: #222;
+}
+
+.introduce > div > div > h2 {
+  text-align: left;
+  border-left: 10px solid rgba(13, 41, 81, 1);
+  padding-left: 10px;
+}
+
+/* 指导老师 */
+.instruction {
+  width: 100%;
+  margin: 50px auto;
+  background-color: rgb(252, 252, 252);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 50px 0;
+  padding-bottom: 100px;
+}
+
+.instruction > div {
+  width: 80%;
+}
+
+.instruction h2 {
+  margin-bottom: 30px;
+}
+
+.instruction > div > ul {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 30px;
+}
+
+.instruction > div > ul > li {
+  width: calc(33.3% - 20px);
+  position: relative;
+  cursor: pointer;
+}
+
+.instruction > div > ul > li > div:first-of-type {
+  width: 100%;
+  box-shadow: 0px 0px 3px rgba(0, 0, 0, 0.2);
+  border-radius: 5px;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  padding-top: 30px;
+}
+.instruction > div > ul > li > div:first-of-type > img {
+  width: 70%;
+  transition: 1s ease;
+}
+
+.instruction > div > ul > li > div:last-of-type {
+  width: 80%;
+  box-shadow: 3px 3px 3px rgba(0, 0, 0, 0.2);
+  position: absolute;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  border-bottom: 2px solid rgba(241, 80, 85, 1);
+  background: white;
+  border-radius: 10px;
+  padding: 10px;
+  text-align: center;
+}
+
+.instruction > div > ul > li > div:last-of-type > h3 {
+  color: rgba(13, 41, 81, 1);
+  font-size: 1.5em;
+  cursor: pointer;
+  transition: 0.5s ease;
+}
+
+.instruction > div > ul > li:hover img {
+  transform: scale(1.1);
+}
+
+.instruction > div > ul > li:hover div:last-of-type > h3 {
+  color: rgba(241, 80, 85, 1);
+}
+
+/*项目*/
+.project {
+  width: 80%;
+  margin: 30px auto;
+  position: relative;
+  overflow: hidden;
+  padding: 20px 0;
+}
+
+.project_title {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0px 20px;
+}
+
+.project_title > h2 {
+  margin: 30px 0;
+}
+
+.project_title > div {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100px;
+  font-size: 36px;
+  color: rgba(30, 56, 137, 1);
+  font-weight: bold;
+}
+
+.project_title > div > span {
+  cursor: pointer;
+}
+
+.project_main {
+  display: flex;
+  position: relative;
+  width: 100%;
+  height: auto;
+}
+
+.project_main > li {
+  width: calc(25% - 20px);
+  overflow: hidden;
+  border-radius: 10px;
+  transition: 1s ease;
+  box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.2);
+  position: relative;
+  flex-shrink: 0;
+  height: calc(100% - 30px);
+  margin: 0 10px;
+}
+
+.project_main > li:hover {
+  box-shadow: 0px 5px 5px rgba(30, 56, 137, 0.5);
+}
+
+.project_main > li:hover img {
+  transform: scale(1.1);
+}
+
+.project_main > li > div > img {
+  width: 100%;
+  height: 100%;
+  transition: 1s ease;
+  object-fit: cover;
+}
+
+.project_main > li > div:first-of-type {
+  width: 100%;
+  max-height: 70%;
+  overflow: hidden;
+}
+
+.project_main > li > div:last-of-type {
+  padding: 3px 8px;
+}
+
+.project_main > li > div:last-of-type > h3 {
+  height: 36px;
+  overflow: scroll;
+}
+
+.project_main > li > div:last-of-type > p {
+  color: rgba(115, 115, 115, 1);
+  height: 36px;
+  overflow: scroll;
+}
+
+.project_main > li > div:last-of-type > p::-webkit-scrollbar {
+  display: none;
+}
+.project_main > li > div:last-of-type > h3::-webkit-scrollbar {
+  display: none;
+}
+
+.project_main > li > div:last-of-type > div {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  color: rgba(115, 115, 115, 1);
+}
+
+.project_main > li > div:last-of-type > div > a {
+  color: rgba(115, 115, 115, 1);
+}
+
+/*自适应1000px*/
+@media (max-width: 1000px) {
+  /* 轮播 */
+  .imgList li {
+    width: 150px;
+    top: calc(100% - 91px);
+    height: 71px;
+  }
+
+  .imgList li:nth-of-type(3) {
+    left: calc(50% - 235px);
+  }
+  .imgList li:nth-of-type(4) {
+    left: calc(50% - 75px);
+  }
+  .imgList li:nth-of-type(5) {
+    left: calc(50% + 85px);
+  }
+
+  .left_right span {
+    width: 50px;
+    height: 50px;
+  }
+
+  /*新闻*/
+
+  .news_main {
+    height: 910px;
+  }
+
+  .news_main > li {
+    left: 50%;
+    width: calc(50% - 30px);
+  }
+
+  .news_main > li:nth-of-type(1),
+  .news_main > li:nth-of-type(2) {
+    width: calc(100% - 30px);
+  }
+
+  .news_main > li:nth-of-type(1) > div:first-of-type,
+  .news_main > li:nth-of-type(2) > div:first-of-type {
+    height: 335px;
+  }
+  .news_main > li:nth-of-type(3) {
+    left: 0;
+    top: calc(569px + 20px);
+  }
+
+  .news_main > li:nth-of-type(4) {
+    top: calc(569px + 20px);
+  }
+  .news_main > li:nth-of-type(5) {
+    top: calc(569px + 178px);
+  }
+  .news_main > li:nth-of-type(6) {
+    top: calc(569px + 178px);
+    left: 0;
+  }
+
+  /* 介绍 */
+  .introduce > div {
+    width: 600px;
+  }
+
+  .introduce > div > img {
+    width: 100%;
+    margin-bottom: 10px;
+  }
+
+  .introduce > div > div {
+    width: 100%;
+  }
+
+  /* 团队成员 */
+  .instruction > div > ul {
+    gap: 90px 30px;
+  }
+  .instruction > div > ul > li {
+    width: calc(50% - 15px);
+  }
+
+  /* 项目 */
+  .project_main > li {
+    width: calc(33.3% - 20px);
+  }
+}
+
+/*自适应480px*/
+@media (max-width: 630px) {
+  .imgList li {
+    width: 100px;
+    top: calc(100% - 67px);
+    height: 47px;
+  }
+
+  .imgList li:nth-of-type(3) {
+    left: calc(50% - 160px);
+  }
+  .imgList li:nth-of-type(4) {
+    left: calc(50% - 50px);
+  }
+  .imgList li:nth-of-type(5) {
+    left: calc(50% + 60px);
+  }
+
+  .left_right span {
+    width: 40px;
+    height: 40px;
+  }
+
+  /*新闻*/
+  .news_main {
+    height: 665px;
+  }
+
+  .news_main > li {
+    left: 0;
+    width: calc(100% - 30px);
+  }
+
+  .news_main > li:nth-of-type(1) > div:first-of-type,
+  .news_main > li:nth-of-type(2) > div:first-of-type {
+    height: 250px;
+  }
+  .news_main > li:nth-of-type(3) {
+    left: 0;
+    top: calc(484px + 20px);
+  }
+
+  .news_main > li:nth-of-type(4) {
+    top: calc(484px + 220px);
+  }
+
+  .introduce > div {
+    width: 370px;
+  }
+
+  .introduce > div > img {
+    display: none;
+  }
+  /* 团队成员 */
+  .instruction > div > ul > li {
+    width: 100%;
+  }
+
+  /* 项目 */
+  .project_main > li {
+    width: calc(50% - 20px);
+  }
+}
+
+/* letter涵 */
+.swiper {
+  width: 90%;
+  margin: 0 auto;
+  margin-bottom: 50px;
+}
+
+.swiper .swiper-slide img {
+  height: 100%;
+  width: 100%;
+  object-fit: cover;
+}
+
+/* Exhibition */
+.exhibition {
+  width: 100%;
+  background-color: rgb(252, 252, 252);
+  padding: 50px 0;
+  overflow: hidden;
+}
+
+.exhibition_box img {
+  width: 100%;
+}
+</style>
