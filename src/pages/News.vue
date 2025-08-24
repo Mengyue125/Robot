@@ -13,13 +13,13 @@
           </div>
           <div class="content-box">
             <span>{{ v.publish_time }}</span>
-            <h3>{{ v.title }}</h3>
-            <p>{{ v.content }}</p>
+            <h3>{{ currentLocale === 'zh-cn' ? v.title : v.title_US }}</h3>
+            <p>{{ currentLocale === 'zh-cn' ? v.content : v.content_US }}</p>
             <div>
               <a
                 href="https://gzdaily.dayoo.com/pc/html/2025-04/09/content_743_883794.htm"
                 target="_blank"
-                >查看详情</a
+                >{{ currentLocale === 'zh-cn' ? '查看详情' : 'Read More' }}</a
               >
             </div>
           </div>
@@ -34,6 +34,7 @@
 
 <script>
 import SkeletonLoader from "@/components/SkeletonLoader.vue";
+import supabase from '@/plugins/supabase';
 export default {
   name: "NewsPage",
   components: { SkeletonLoader },
@@ -124,27 +125,48 @@ export default {
       const startIndex = (this.pgIndex - 1) * this.num;
       const endIndex = startIndex + this.num;
       return this.newsList.slice(startIndex, endIndex);
+    },
+    // 获取当前语言
+    currentLocale() {
+      return this.$i18n.locale;
     }
   },
-  // mounted() {
-  //   this.$axios
-  //     .get(
-  //       // "http://web11557.y9.computerqwq.cf/Robot/public/index.php/banner/news"
-  //       "/api/Robot/public/index.php/banner/news"
-  //     )
-  //     .then((res) => {
-  //       this.newsList = res.data;
-  //       this.total = Math.ceil(this.newsList.length / this.num);
-  //       this.isLoading = false;
-  //       this.updatebtn();
-  //     });
-  // },
-  mounted(){
-    setTimeout(()=>{
-      this.isLoading = false
-    },2000)
+  watch: {
+    // 监听语言变化，重新加载数据
+    currentLocale: function() {
+      // 不需要重新获取数据，只需触发视图更新
+      this.$forceUpdate();
+    }
+  },
+  mounted() {
+    // 初始化时显示加载状态
+    this.isLoading = true;
+
+    // 从Supabase获取数据
+    this.fetchNews();
   },
   methods: {
+    async fetchNews() {
+      try {
+        const { data, error } = await supabase
+          .from('news')
+          .select('*')
+          .order('publish_time', { ascending: false })
+          .eq('status', 1);
+          
+        if (error) throw error;
+        
+        this.newsList = data;
+        this.total = Math.ceil(this.newsList.length / this.num);
+        this.isLoading = false;
+        this.updatebtn();
+      } catch (error) {
+        // console.error('Failed to load news data:', error);
+        this.isLoading = false;
+        // 显示错误提示
+        alert('加载新闻数据失败，请稍后再试');
+      }
+    },
     // 更新分页按钮
     updatebtn() {
       const pglist = document.querySelector('.pglist');
@@ -308,8 +330,8 @@ export default {
   justify-content: center;
   margin: 40px 0;
 }
-/deep/ .pglist span,
-/deep/ .pglist div {
+::v-deep .pglist span,
+::v-deep .pglist div {
   height: 35px;
   min-width: 35px;
   padding: 5px;
@@ -320,16 +342,16 @@ export default {
   text-align: center;
   cursor: pointer;
 }
-/deep/ #prev,
-/deep/ #next {
+::v-deep #prev,
+::v-deep #next {
   padding: 5px 10px;
   margin: 0 15px;
   color: rgba(14, 42, 82, 1);
   transition: 0.5s;
 }
-/deep/ #prev:hover,
-/deep/ #next:hover,
-/deep/ #currentpg {
+::v-deep #prev:hover,
+::v-deep #next:hover,
+::v-deep #currentpg {
   background: rgba(14, 42, 82, 1);
   color: white;
 }

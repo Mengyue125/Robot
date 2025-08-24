@@ -11,7 +11,8 @@
       <router-view/>
     </main>
     <!-- 尾部 -->
-    <robot_Footer></robot_Footer>
+    <robot_Footer></robot_Footer> 
+    
   </div>
 </template>
 
@@ -20,6 +21,7 @@ import robot_Header from './components/robot_Header.vue';
 import robot_Footer from './components/robot_Footer.vue';
 import robot_Aside from './components/robot_Aside.vue';
 import robot_Search from './components/robot_Search.vue';
+
 export default {
     name:"App",
     components:{robot_Header,robot_Footer,robot_Aside,robot_Search},

@@ -30,8 +30,8 @@
         </div>
         <transition-group class="news_main" tag="ul">
           <li v-for="v in newsList" :key="v.id">
-            <h3>{{ v.title }}</h3>
-            <p>{{ v.content }}</p>
+            <h3>{{ currentLocale === 'zh-cn' ? v.title : v.title_US }}</h3>
+            <p>{{ currentLocale === 'zh-cn' ? v.content : v.content_US }}</p>
             <div>
               <img
                 :src="require(`@/assets/${v.image_path}`)"
@@ -39,8 +39,8 @@
               />
             </div>
             <div>
-              {{ v.publish_time }}/Cat
-              <a :href="v.link_url">Read more</a>
+              {{ v.publish_time }}
+              <a :href="v.link_url">{{ currentLocale === 'zh-cn' ? '查看详情' : 'Read More' }}</a>
             </div>
           </li>
         </transition-group>
@@ -186,6 +186,8 @@ import robot_Loading from "@/components/robot_Loading.vue";
 import { useAnimation } from "@/composables/useAnimation";
 import GallerySwiper from "@/components/GallerySwiper.vue";
 import ExhibitionSwiper from "@/components/ExhibitionSwiper.vue";
+import supabase from '@/plugins/supabase';
+
 export default {
   name: "HomePage",
   components: { robot_Loading ,ExhibitionSwiper,GallerySwiper},
@@ -303,43 +305,58 @@ export default {
       projectTransform: 'translateX(0%)'
     };
   },
-  // mounted() {
-  //   this.$axios
-  //     .get(
-  //       // "http://web11557.y9.computerqwq.cf/Robot/public/index.php/banner"
-  //       '/api/banner'
-  //     )
-  //     .then((res) => {
-  //       // 复制banner数据并修改id以确保key值不同
-  //       const originalBanners = res.data;
-  //       const copiedBanners1 = originalBanners.map(banner => ({
-  //         ...banner,
-  //         id: banner.id + 1000 // 第一层复制，id+1000
-  //       }));
-        
-  //       this.bannerList = originalBanners.concat(copiedBanners1);
-  //       console.log(this.bannerList);
-  //       this.isLoading = false
-  //     });
-
-  //   this.$axios
-  //     .get(
-  //       // "http://web11557.y9.computerqwq.cf/Robot/public/index.php/banner/news"
-  //       '/api/banner/news'
-  //     )
-  //     .then((res) => {
-  //       this.newsList = res.data;
-  //       console.log(this.newsList);
-  //     });
-  // },
-  mounted(){
-    setTimeout(()=>{
-      this.isLoading = false
-    },2000)
+  mounted() {
+    this.fetchBanners();
+    this.fetchNews();
   },
-  methods:{
-        toggleProject(v){
-          // v为1表示向左切换，为0表示向右切换
+  methods: {
+    async fetchBanners() {
+      try {
+        this.isLoading = true;
+        const { data, error } = await supabase
+          .from('banner')
+          .select('*')
+          .order('created_at', { ascending: false })
+          .eq('is_active', 1);
+          
+        if (error) throw error;
+        
+        // 复制banner数据并修改id以确保key值不同
+        const originalBanners = data;
+        const copiedBanners1 = originalBanners.map(banner => ({
+          ...banner,
+          id: banner.id + 1000 // 第一层复制，id+1000
+        }));
+        
+        this.bannerList = originalBanners.concat(copiedBanners1);
+        // console.log('获取到的banner数据:', this.bannerList);
+        this.isLoading = false;
+      } catch (error) {
+        // console.error('获取banner数据失败:', error);
+        this.isLoading = false;
+        // 可以添加错误处理逻辑
+      }
+    },
+    
+    async fetchNews() {
+      try {
+        const { data, error } = await supabase
+          .from('news')
+          .select('*')
+          .order('publish_time', { ascending: false })
+          .eq('status', 1);
+          
+        if (error) throw error;
+        
+        this.newsList = data;
+        // console.log('获取到的news数据:', this.newsList);
+      } catch (error) {
+        // console.error('获取news数据失败:', error);
+        // 可以添加错误处理逻辑
+      }
+    },
+    toggleProject(v){
+      // v为1表示向左切换，为0表示向右切换
           if(v){
             this.projectNum--;
             if(this.projectNum < 0){
@@ -392,6 +409,18 @@ export default {
             this.bannerList.unshift(lastItem);
           }
         }
+  },
+  watch: {
+    // 监听语言变化，重新加载数据
+    currentLocale: function() {
+      // 不需要重新获取数据，只需触发视图更新
+      this.$forceUpdate();
+    }
+  },
+  computed:{
+    currentLocale() {
+      return this.$i18n.locale;
+    }
   }
 };
 </script>
