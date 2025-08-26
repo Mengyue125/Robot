@@ -13,8 +13,8 @@
           </div>
           <div class="content-box">
             <span>{{ v.publish_time }}</span>
-            <h3>{{ currentLocale === 'zh-cn' ? v.title : v.title_US }}</h3>
-            <p>{{ currentLocale === 'zh-cn' ? v.content : v.content_US }}</p>
+            <h3>{{ currentLocale === 'zh-cn' ? v.title : v.title_us }}</h3>
+            <p>{{ currentLocale === 'zh-cn' ? v.content : v.content_us }}</p>
             <div>
               <a
                 href="https://gzdaily.dayoo.com/pc/html/2025-04/09/content_743_883794.htm"

@@ -61,7 +61,11 @@ export default {
             PubSub.publish('toggleSearch')
         },
         changeLanguage(lang) {
-            this.$i18n.locale = lang  // 切换语言
+            console.log('切换语言为:', lang);
+            this.$i18n.locale = lang;
+            console.log('当前语言:', this.$i18n.locale);
+            // 强制重新渲染组件
+            this.$forceUpdate();
         },
     }
 }

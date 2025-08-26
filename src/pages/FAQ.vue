@@ -70,17 +70,18 @@
           blandit. Nullam viverra est quis erat fringilla,at rutrum sem lacinia.
         </p>
         <form action="">
-          <input type="text" placeholder="Name" />
-          <input type="email" placeholder="Email" />
-          <input type="text" placeholder="Subject" />
+          <input v-model="name" type="text" placeholder="Name" />
+          <input v-model="email" type="email" placeholder="Email" />
+          <input v-model="subject" type="text" placeholder="Subject" />
           <textarea
+            v-model="message"
             name=""
-            id=""
+            id="" a
             cols="10"
             rows="5"
             placeholder="Message"
           ></textarea>
-          <input type="submit" value="SUBMIT" />
+          <input type="submit" @click.prevent="submitForm" :disabled="isSubmitting" :value="isSubmitting ? '提交中...' : 'SUBMIT'" />
         </form>
       </div>
     </section>
@@ -89,6 +90,7 @@
 
 <script>
 import { useAnimation } from '@/composables/useAnimation';
+import supabase from '@/plugins/supabase';
 export default {
   name: "FaqPage",
   setup(){
@@ -97,7 +99,12 @@ export default {
     },
   data() {
     return {
+      name: '',
+      email: '',
+      subject: '',
+      message: '',
       activeIndex: 0,
+      isSubmitting: false,
       faqs: [
         {
           question: "Vue 是什么?",
@@ -115,6 +122,60 @@ export default {
     toggle(index) {
         this.activeIndex = this.activeIndex === index ? -1 : index;
         console.log(this.activeIndex)
+    },
+    async submitForm() {
+      try {
+        // 如果已经在提交中，则直接返回
+        if (this.isSubmitting) {
+          return;
+        }
+        
+        // 设置为提交中状态
+        this.isSubmitting = true;
+        // 验证表单数据
+        if (!this.name || !this.email || !this.message) {
+          alert('请填写所有必填字段');
+          this.isSubmitting = false; // 重置提交状态
+          return;
+        }
+
+        // 验证邮箱格式
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if (!emailRegex.test(this.email)) {
+          alert('请输入有效的邮箱地址');
+          this.isSubmitting = false; // 重置提交状态
+          return;
+        }
+
+        // 将数据写入Supabase
+        const { data, error } = await supabase
+          .from('contact_form')
+          .insert([{
+            name: this.name,
+            email: this.email,
+            subject: this.subject,
+            message: this.message
+          }]);
+
+        if (error) {
+          console.error('Error submitting form:', error);
+          alert('表单提交失败，请稍后再试。');
+        } else {
+          console.log('Form submitted successfully:', data);
+          alert('表单提交成功！');
+          // 重置表单
+          this.name = '';
+          this.email = '';
+          this.subject = '';
+          this.message = '';
+        }
+      } catch (error) {
+        console.error('Unexpected error:', error);
+        alert('发生意外错误，请稍后再试。');
+      } finally {
+        // 无论成功还是失败，都重置提交状态
+        this.isSubmitting = false;
+      }
     },
   },
 };

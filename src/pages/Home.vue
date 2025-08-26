@@ -30,8 +30,8 @@
         </div>
         <transition-group class="news_main" tag="ul">
           <li v-for="v in newsList" :key="v.id">
-            <h3>{{ currentLocale === 'zh-cn' ? v.title : v.title_US }}</h3>
-            <p>{{ currentLocale === 'zh-cn' ? v.content : v.content_US }}</p>
+            <h3>{{ currentLocale === 'zh-cn' ? v.title : v.title_us }}</h3>
+            <p>{{ currentLocale === 'zh-cn' ? v.content : v.content_us }}</p>
             <div>
               <img
                 :src="require(`@/assets/${v.image_path}`)"
