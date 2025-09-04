@@ -19,12 +19,12 @@ export default {
   data() {
     return {
       images: [
-        require('@/assets/img/banner1.jpg'),
-        require('@/assets/img/banner2.jpg'),
-        require('@/assets/img/banner3.jpg'),
-        require('@/assets/img/banner4.jpg'),
-        require('@/assets/img/banner5.jpg'),
-        require('@/assets/img/banner6.jpg')
+        require('@/assets/img/banner1.webp'),
+        require('@/assets/img/banner2.webp'),
+        require('@/assets/img/banner3.webp'),
+        require('@/assets/img/banner4.webp'),
+        require('@/assets/img/banner5.webp'),
+        require('@/assets/img/banner6.webp')
       ],
       swiperInstance: null
     }

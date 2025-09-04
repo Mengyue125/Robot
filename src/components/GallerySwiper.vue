@@ -24,13 +24,13 @@ export default {
   data() {
     return {
       images: [
-        require('@/assets/img/4-29 罗定邦中学 邀请函.png'),
-        require('@/assets/img/5-31 中山联通 邀请函.png'),
-        require('@/assets/img/5.16~18佛山省联通 邀请函_页面_1.png'),
-        require('@/assets/img/5.16~18佛山省联通 邀请函_页面_2.png'),
-        require('@/assets/img/5.21 佛山机关幼儿园 邀请函.png'),
-        require('@/assets/img/5.29 顺峰幼儿园 邀请函_页面_1.png'),
-        require('@/assets/img/5.29 顺德机关幼儿园 邀请函.png')
+        require('@/assets/img/4-29 罗定邦中学 邀请函.webp'),
+        require('@/assets/img/5-31 中山联通 邀请函.webp'),
+        require('@/assets/img/5.16~18佛山省联通 邀请函_页面_1.webp'),
+        require('@/assets/img/5.16~18佛山省联通 邀请函_页面_2.webp'),
+        require('@/assets/img/5.21 佛山机关幼儿园 邀请函.webp'),
+        require('@/assets/img/5.29 顺峰幼儿园 邀请函_页面_1.webp'),
+        require('@/assets/img/5.29 顺德机关幼儿园 邀请函.webp')
       ],
       swiper: null
     }

@@ -2,7 +2,7 @@
   <!--	头部-->
 	<header>
 		<div>
-			<img src="../assets/img/logo.png" alt="">
+			<img src="../assets/img/logo.webp" alt="">
 			<div>
 				<div>
 					<ul>
@@ -24,7 +24,7 @@
 				</div>
 				<div class="search_btn btn" @click="toggleSearch" >
 					<div>
-						<img src="../assets/img/search2.png" alt="" sizes="" srcset="">
+						<img src="../assets/img/search2.webp" alt="" sizes="" srcset="">
 					</div>
 				</div>
 			</div>

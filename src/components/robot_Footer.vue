@@ -22,7 +22,7 @@
 			</ul>
 			<ul>
 				<li>
-					<router-link to="/home"><img src="../assets/img/logo.png" alt="logo"></router-link>
+					<router-link to="/home"><img src="../assets/img/logo.webp" alt="logo"></router-link>
 				</li>
 			</ul>
 		</div>

@@ -48,7 +48,7 @@
       <!--		介绍-->
       <section class="introduce item" id="Introduce">
         <div>
-          <img src="../assets/img/1.jpg" alt="" />
+          <img src="../assets/img/1.webp" alt="" />
           <div>
             <h2 class="title" data-i18n="Introduce">{{ $t('menu.Introduce') }}</h2>
             <p>
@@ -75,21 +75,21 @@
           <span class="line"><span></span></span>
           <ul class="instruction_list">
             <li>
-              <div><img src="../assets/img/instruction1.png" alt="" /></div>
+              <div><img src="../assets/img/instruction1.webp" alt="" /></div>
               <div>
                 <h3>Name</h3>
                 <p>主指导</p>
               </div>
             </li>
             <li>
-              <div><img src="../assets/img/instruction2.png" alt="" /></div>
+              <div><img src="../assets/img/instruction2.webp" alt="" /></div>
               <div>
                 <h3>Name</h3>
                 <p>主指导</p>
               </div>
             </li>
             <li>
-              <div><img src="../assets/img/instruction3.png" alt="" /></div>
+              <div><img src="../assets/img/instruction3.webp" alt="" /></div>
               <div>
                 <h3>Name</h3>
                 <p>主指导</p>
@@ -108,68 +108,16 @@
           </div>
         </div>
         <div class="project_main" ref="projectMain" :style="{ transform: projectTransform, transition: 'transform 0.5s ease' }">
-          <li>
+          <li v-for="v in projectList" :key="v.id">
             <div>
-              <img src="../assets/img/project1.jpg" alt="" />
+              <img :src="formatImagePath(v.image_path)" :alt="v.title" />
             </div>
             <div>
-              <h3>ICS Security and Continuity</h3>
-              <p>OT security and visibility for industrial control systems</p>
+              <h3>{{ currentLocale === 'zh-cn' ? v.title : v.title_us }}</h3>
+        <p>{{ currentLocale === 'zh-cn' ? v.content : v.content_us}}</p>
               <div>
-                2022.12.12
-                <a href="News.html">Read more</a>
-              </div>
-            </div>
-          </li>
-          <li>
-            <div>
-              <img src="../assets/img/project1.jpg" alt="" />
-            </div>
-            <div>
-              <h3>ICS Security and Continuity</h3>
-              <p>OT security and visibility for industrial control systems</p>
-              <div>
-                2022.12.12
-                <a href="News.html">Read more</a>
-              </div>
-            </div>
-          </li>
-          <li>
-            <div>
-              <img src="../assets/img/project1.jpg" alt="" />
-            </div>
-            <div>
-              <h3>ICS Security and Continuity</h3>
-              <p>OT security and visibility for industrial control systems</p>
-              <div>
-                2022.12.12
-                <a href="News.html">Read more</a>
-              </div>
-            </div>
-          </li>
-          <li>
-            <div>
-              <img src="../assets/img/project1.jpg" alt="" />
-            </div>
-            <div>
-              <h3>ICS Security and Continuity</h3>
-              <p>OT security and visibility for industrial control systems</p>
-              <div>
-                2022.12.12
-                <a href="News.html">Read more</a>
-              </div>
-            </div>
-          </li>
-          <li>
-            <div>
-              <img src="../assets/img/project1.jpg" alt="" />
-            </div>
-            <div>
-              <h3>ICS Security and Continuity</h3>
-              <p>OT security and visibility for industrial control systems</p>
-              <div>
-                2022.12.12
-                <a href="News.html">Read more</a>
+                {{ currentLocale === 'zh-cn' ? v.category : v.category_us }} | {{ v.project_time ? formatDate(v.project_time) : '2022.12.12' }}
+                <a :href="v.link_url">{{ currentLocale === 'zh-cn' ? '查看详情' : 'Read more' }}</a> 
               </div>
             </div>
           </li>
@@ -200,7 +148,7 @@ export default {
       bannerList: [
         {
           "id": 2,
-          "image_path": "img/banner1.jpg",
+          "image_path": "img/banner1.webp",
           "description": "佛山高校首款自研人形机器人预计年内揭开面纱",
           "link_url": "https://gzdaily.dayoo.com/pc/html/2025-04/09/content_743_883794.htm",
           "sort_order": 1,
@@ -209,7 +157,7 @@ export default {
         },
         {
           "id": 3,
-          "image_path": "img/banner2.jpg",
+          "image_path": "img/banner2.webp",
           "description": "佛山'AI赋能'活动精彩上演，憨态醒狮机器狗吸睛！",
           "link_url": "https://content.foshanplus.com/newsDetails.html?newsId=942547&memberId=1304447&utm_source=fsandroid&utm_medium=news&utm_campaign=context&utm_term=942547&utm_belong1=1304447",
           "sort_order": 1,
@@ -218,7 +166,7 @@ export default {
         },
         {
           "id": 4,
-          "image_path": "img/banner3.jpg",
+          "image_path": "img/banner3.webp",
           "description": "醒狮队和机器狗现场battle！佛山市职业教育活动周上演人机斗舞",
           "link_url": "https://content.foshanplus.com/newsDetails.html?newsId=943910&memberId=126808&utm_source=fsandroid&utm_medium=news&utm_campaign=context&utm_term=943910&utm_belong1=126808&time=1747042902665",
           "sort_order": 1,
@@ -231,7 +179,7 @@ export default {
     "id": 1,
     "title": "佛山高校首款自研人形机器人预计年内揭开面纱",
     "content": "如今，佛山也有了自己的“机器汪”。在日前举行的佛山50公里徒步活动上，一只模拟了醒狮的机器狗成为现场的焦点，吸引不少市民前来互动。\n\n　　据悉，这只活泼灵动的“机器汪”由佛山高校顺德职业技术学院智能制造学院智能机器人研发团队打造，以宇树科技机器狗A1为原型，由MIT猎豹开源的机器模型进行研发。未来，这只佛山造“机器汪”或迎机器人“主人”。据该团队负责人透露，团队自研的人形机器人已经“在路上”，最快于今年9月揭开面纱。这将是佛山高校首款自研的人形机器人，集中展现佛山高校在机器人领域的集成创新能力。",
-    "image_path": "img/banner1.jpg",
+    "image_path": "img/banner1.webp",
     "publish_time": "2025-04-09",
     "link_url": "https://gzdaily.dayoo.com/pc/html/2025-04/09/content_743_883794.htm",
     "is_top": 0,
@@ -241,7 +189,7 @@ export default {
     "id": 2,
     "title": "佛山“AI赋能”活动精彩上演，憨态醒狮机器狗吸睛！",
     "content": "5月4日，由佛山市工业和信息化局主办、佛山联通承办的“AI赋能·大集大利”主题活动在南海千灯湖环宇城精彩举行。智慧家庭、AI医疗、高效办公、机器人……在这里，场景化展区、数字互动区全面呈现联通智慧产品矩阵，吸引众多市民沉浸式体验前沿AI科技互动，近距离感受人工智能惠民应用走进生活。",
-    "image_path": "img/banner2.jpg",
+    "image_path": "img/banner2.webp",
     "publish_time": "2025-05-04",
     "link_url": "https://content.foshanplus.com/newsDetails.html?newsId=942547&memberId=1304447&utm_source=fsandroid&utm_medium=news&utm_campaign=context&utm_term=942547&utm_belong1=1304447",
     "is_top": 0,
@@ -251,7 +199,7 @@ export default {
     "id": 3,
     "title": "醒狮队和机器狗现场battle！佛山市职业教育活动周上演人机斗舞",
     "content": "5月11日，2025年佛山市职业教育活动周暨全民终身学习活动周在市图书馆西门广场拉开帷幕。舞台上，技能绝活、文体节目不间断上演，集市展区汇聚了市内各高职院校、中职学校，这些学校精心布置了30多个特色摊位，提供茶艺品鉴、陶艺制作、中医养生科普、幼儿急救教学、3D打印等精彩体验活动，市民参与打卡就能兑换礼物。",
-    "image_path": "img/banner3.jpg",
+    "image_path": "img/banner3.webp",
     "publish_time": "2025-05-12",
     "link_url": "https://content.foshanplus.com/newsDetails.html?newsId=943910&memberId=126808&utm_source=fsandroid&utm_medium=news&utm_campaign=context&utm_term=943910&utm_belong1=126808&time=1747042902665",
     "is_top": 0,
@@ -261,7 +209,7 @@ export default {
     "id": 4,
     "title": "法润童心 狮韵创玩启新航——佛山市幼儿园共同体童趣非遗绽放禅城区学前教育宣传月",
     "content": "随着一阵欢快的锣鼓声响起，小萌狮们舞动起来，他们在鼓点中跳跃、腾挪，展现传统文化的灵动之美，小萌狮的精彩表演引得台下的观众们掌声连连。这不仅是一场精彩的表演，更是一堂生动的传统文化与自主探究课程，展现出他们天真烂漫的童年风采和对醒狮文化的热爱之情，深刻体现出孩子们自信大方、勇敢坚毅，团结有爱的美好品德。",
-    "image_path": "img/news1.jpg",
+    "image_path": "img/news1.webp",
     "publish_time": "2025-05-26",
     "link_url": "https://mp.weixin.qq.com/s/iYlGmjvpzjE_hb2LcRpGgA",
     "is_top": 0,
@@ -271,7 +219,7 @@ export default {
     "id": 5,
     "title": "2025年广东省“全国科技活动周”活动在深圳启动",
     "content": "《广东新闻联播》是一档以时政经济为主，汇集国内外重大消息的综合性新闻节目。主要内容是报道广东在社会、政治、经济等方面所取得的巨大成就。在报道过程中，积极发挥正确导向、舆论监督，维护社会稳定的主流媒体作用。",
-    "image_path": "img/news2.jpg",
+    "image_path": "img/news2.webp",
     "publish_time": "2025-05-27",
     "link_url": "https://m.itouchtv.cn/program/337/10/929560?shareId=GhxiybMD",
     "is_top": 0,
@@ -281,7 +229,7 @@ export default {
     "id": 6,
     "title": "顺德50组星儿家庭踏上科技探索之旅",
     "content": "六一儿童节期间，由深圳市华侨公益基金会、盛幄集团IN279团队、顺德工业发展馆、佛山市精神残疾人及亲友会，联合发起“心向阳爱同行”之“科技护航、星芒闪耀”的星儿科技游乐场公益慈善活动在顺德工业发展馆启航，引领超过50组星儿家庭和普通家庭的孩子踏上了科技探索之旅。\n\n",
-    "image_path": "img/news3.jpg",
+    "image_path": "img/news3.webp",
     "publish_time": "2025-06-05",
     "link_url": "https://content.foshanplus.com/newsDetails.html?newsId=948857&memberId=158096&utm_source=fsandroid&utm_medium=news&utm_campaign=context&utm_term=948857&utm_belong1=158096&time=1749085921505",
     "is_top": 0,
@@ -291,7 +239,7 @@ export default {
     "id": 7,
     "title": "“AI赋能未来 科技联通生活”",
     "content": "为让青少年度过一个充满科技感的儿童节，深入贯彻国家“人工智能+”行动部署，6月1日至2日，由惠州市科学技术协会主办、中国联通惠州市分公司和惠州科技馆承办的“AI赋能未来 科技联通生活”2025年全国科技周特别活动在惠州市科技馆一楼展厅盛大启幕。活动通过十大前沿AI展项、沉浸式互动体验，全景呈现人工智能技术赋能千行百业的创新成果，累计吸引超5000人次市民参与，其中青少年占比超六成。孩子们在趣味探索中感受科技魅力，家长在场景体验中见证AI赋能未来，生动彰显惠州联通作为央企在科技创新以及对青少年科普教育中的责任担当。惠州市科协党组书记涂斯婷、惠州联通副总经理张凯等领导到现场参观指导。",
-    "image_path": "img/news4.jpg",
+    "image_path": "img/news4.webp",
     "publish_time": "2025-06-02",
     "link_url": "https://mp.weixin.qq.com/s/tlHFHTqTvRRdkE2Z7Ufe4g",
     "is_top": 0,
@@ -302,12 +250,41 @@ export default {
       num:0,
       projectNum: 0,
       projectItemsCount: 5, // 项目数量
-      projectTransform: 'translateX(0%)'
+      projectTransform: 'translateX(0%)',
+      projectList: [
+        {
+          id: 1,
+          title: '智能机器人教育平台',
+          title_us: 'Smart Robot Education Platform',
+          content: '为学校和培训机构提供全面的机器人教育解决方案，包含课程体系、教学设备和评估系统。',
+          content_us: 'Providing comprehensive robot education solutions for schools and training institutions, including curriculum system, teaching equipment and evaluation system.',
+          image_path: 'img/project1.webp',
+          project_time: '2023-06-15',
+          category: '教育',
+          category_us: 'Education',
+          link_url: 'News.html',
+          sort_order: 1
+        },
+        {
+          id: 2,
+          title: 'AI编程夏令营',
+          title_us: 'AI Programming Summer Camp',
+          content: '面向青少年的人工智能编程培训项目，培养计算思维和创新能力。',
+          content_us: 'AI programming training program for teenagers, cultivating computational thinking and innovation ability.',
+          image_path: 'img/project2.webp',
+          project_time: '2023-07-20',
+          category: '培训',
+          category_us: 'Training',
+          link_url: 'News.html',
+          sort_order: 2
+        }
+      ]
     };
   },
   mounted() {
     this.fetchBanners();
     this.fetchNews();
+    this.fetchProjects();
   },
   methods: {
     async fetchBanners() {
@@ -349,46 +326,95 @@ export default {
         if (error) throw error;
         
         this.newsList = data;
-        // console.log('获取到的news数据:', this.newsList);
+        console.log('获取到的news数据:', this.newsList);
       } catch (error) {
         // console.error('获取news数据失败:', error);
         // 可以添加错误处理逻辑
       }
     },
-    toggleProject(v){
+    
+    async fetchProjects() {
+      try {
+        const { data, error } = await supabase
+          .from('projects')
+          .select('*')
+          .order('sort_order', { ascending: false });
+          
+        if (error) throw error;
+        
+        this.projectList = data;
+        this.projectItemsCount = data.length;
+        console.log('获取到的project数据:', this.projectList);
+      } catch (error) {
+        // console.error('获取project数据失败:', error);
+        // 可以添加错误处理逻辑
+      }
+    },
+    
+    formatImagePath(imagePath) {
+      // 如果没有图片路径，返回默认图片
+      if (!imagePath) {
+        return require('@/assets/img/project1.webp');
+      }
+      
+      try {
+        // 清理路径中的 './' 前缀
+        let cleanPath = imagePath;
+        if (imagePath.startsWith('./')) {
+          cleanPath = imagePath.substring(2);
+        }
+        
+        // 尝试加载图片
+        return require(`@/assets/${cleanPath}`);
+      } catch (error) {
+        // 如果图片加载失败，返回默认图片
+        console.warn('图片加载失败:', error);
+        return require('@/assets/img/project1.webp');
+      }
+    },
+    toggleProject(v) {
       // v为1表示向左切换，为0表示向右切换
-          if(v){
-            this.projectNum--;
-            if(this.projectNum < 0){
-              this.projectNum = this.projectItemsCount - 1;
-            }
-          } else {
-            this.projectNum++;
-            if(this.projectNum >= this.projectItemsCount){
-              this.projectNum = 0;
-            }
-          }
-          
-          // 使用原生JS计算实际元素宽度（包括边距）
-          let offset = 0;
-          if (this.$refs.projectMain) {
-            const liElements = this.$refs.projectMain.querySelectorAll('li');
-            if (liElements.length > 0) {
-              const firstLi = liElements[0];
-              // 获取元素的外部宽度（包括边距）
-              const liWidth = firstLi.offsetWidth + parseFloat(getComputedStyle(firstLi).marginLeft) + parseFloat(getComputedStyle(firstLi).marginRight);
-              // 计算总宽度百分比
-              const containerWidth = this.$refs.projectMain.offsetWidth;
-              const liWidthPercentage = (liWidth / containerWidth) * 100;
-              // 计算偏移量百分比
-              offset = -(this.projectNum * liWidthPercentage);
-              this.projectTransform = `translateX(${offset}%)`;
-            }
-          }
-          
-          // 应用变换
-          this.projectTransform = `translateX(${offset}%)`;
+      if (v) {
+        this.projectNum--;
+        if (this.projectNum < 0) {
+          this.projectNum = this.projectItemsCount - 1;
+        }
+      } else {
+        this.projectNum++;
+        if (this.projectNum >= this.projectItemsCount) {
+          this.projectNum = 0;
+        }
+      }
+      
+      // 使用原生JS计算实际元素宽度（包括边距）
+      let offset = 0;
+      if (this.$refs.projectMain) {
+        const liElements = this.$refs.projectMain.querySelectorAll('li');
+        if (liElements.length > 0) {
+          const firstLi = liElements[0];
+          // 获取元素的外部宽度（包括边距）
+          const liWidth = firstLi.offsetWidth + parseFloat(getComputedStyle(firstLi).marginLeft) + parseFloat(getComputedStyle(firstLi).marginRight);
+          // 计算总宽度百分比
+          const containerWidth = this.$refs.projectMain.offsetWidth;
+          const liWidthPercentage = (liWidth / containerWidth) * 100;
+          // 计算偏移量百分比
+          offset = -(this.projectNum * liWidthPercentage);
+        }
+      }
+      
+      // 应用变换
+      this.projectTransform = `translateX(${offset}%)`;
+    },
+        
+        formatDate(dateString) {
+          if (!dateString) return '';
+          const date = new Date(dateString);
+          const year = date.getFullYear();
+          const month = String(date.getMonth() + 1).padStart(2, '0');
+          const day = String(date.getDate()).padStart(2, '0');
+          return `${year}.${month}.${day}`;
         },
+        
         toggleNew(v){
           if(v){
             const firstItem = this.newsList.shift();
@@ -428,11 +454,13 @@ export default {
 <style scoped>
 /* CSS Document */
 .banner {
-  width: 100%;
+  width: 80%;
   position: relative;
   overflow: hidden;
   height: 56.25vw; /* 16:9 比例 */
   max-height: 80vh; /* 可选的最大高度限制 */
+  border-radius: 20px;
+  margin: 30px auto;
 }
 
 .imgList li {
@@ -820,7 +848,7 @@ export default {
 }
 
 .project_main > li {
-  width: calc(25% - 20px);
+  width: calc(33.3% - 20px);
   overflow: hidden;
   border-radius: 10px;
   transition: 1s ease;
@@ -848,7 +876,7 @@ export default {
 
 .project_main > li > div:first-of-type {
   width: 100%;
-  max-height: 70%;
+  height: 180px; /* 固定高度 */
   overflow: hidden;
 }
 
@@ -863,7 +891,7 @@ export default {
 
 .project_main > li > div:last-of-type > p {
   color: rgba(115, 115, 115, 1);
-  height: 36px;
+  height: 108px;
   overflow: scroll;
 }
 
@@ -969,31 +997,32 @@ export default {
 
   /* 项目 */
   .project_main > li {
-    width: calc(33.3% - 20px);
+    width: calc(50% - 20px);
   }
 }
 
-/*自适应480px*/
+/*自适应630px*/
 @media (max-width: 630px) {
   .imgList li {
-    width: 100px;
-    top: calc(100% - 67px);
+    width: 80px;
+    top: calc(100% - 55px);
     height: 47px;
   }
 
   .imgList li:nth-of-type(3) {
-    left: calc(50% - 160px);
+    left: calc(50% - 130px);
   }
   .imgList li:nth-of-type(4) {
-    left: calc(50% - 50px);
+    left: calc(50% - 40px);
   }
   .imgList li:nth-of-type(5) {
-    left: calc(50% + 60px);
+    left: calc(50% + 50px);
   }
 
   .left_right span {
-    width: 40px;
-    height: 40px;
+    width: 30px;
+    height: 30px;
+    font-size: 18px;
   }
 
   /*新闻*/
@@ -1033,7 +1062,7 @@ export default {
 
   /* 项目 */
   .project_main > li {
-    width: calc(50% - 20px);
+    width: calc(100% - 20px);
   }
 }
 

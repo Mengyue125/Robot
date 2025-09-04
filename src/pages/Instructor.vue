@@ -3,7 +3,7 @@
         <div class="main-content">
             <div class="teacher-profile">
                 <div class="teacher-image-container">
-                    <img src="img/instruction1.png" alt="Professor Zhang" class="teacher-image">
+                    <img src="img/instruction1.webp" alt="Professor Zhang" class="teacher-image">
                 </div>
 
                 <div class="teacher-details">

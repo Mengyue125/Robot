@@ -7,16 +7,10 @@
           <h2 class="title" data-i18n="Introduce">{{ $t('menu.Introduce') }}</h2>
           <span></span>
           <p>
-            As we go through our daily routines, we are constantly putting
-            tension on the clothes we wear. This tension then imbibes our
-            clothes with a sort of physical power, which Morinaga has set out to
-            visualize through light.<br />Mechanochromic technology is used as a
-            sensory tool in architectural structures to detect and visualize
-            cracks ?sites of stress or tension ?on a building through a
-            phenomenon which turns this tension into light.
+            {{ $t('menu.detail_introduce') }}
           </p>
         </div>
-        <img src="../assets/img/1.jpg" alt="" />
+        <img src="../assets/img/1.webp" alt="" />
       </div>
     </section>
     <section class="faq item" id="FAQ">
@@ -45,20 +39,20 @@
       <div class="contact">
         <ul>
           <li>
-            <h3>Address</h3>
-            <p>Cristal Mile</p>
+            <h3>{{ $t('menu.Address') }}</h3>
+            <p>{{ $t('menu.detail_address') }}</p>
           </li>
           <li>
-            <h3>Telephong</h3>
-            <p>+123456</p>
+            <h3>{{ $t('menu.Phone') }}</h3>
+            <p>+86 199 2473 0995</p>
           </li>
           <li>
-            <h3>Postbx</h3>
-            <p>Amber@mail.com</p>
+            <h3>{{ $t('menu.Email') }}</h3>
+            <p>kishibe_ruhan@163.com</p>
           </li>
           <li>
-            <h3>Working hours</h3>
-            <p>8-10 PM.</p>
+            <h3>{{ $t('menu.Working hours') }}</h3>
+            <p>24H</p>
           </li>
         </ul>
       </div>
@@ -195,24 +189,52 @@ export default {
 .intro > div {
   width: 860px;
   margin: auto;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  flex-wrap: wrap;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
   background: white;
   padding: 20px;
-  gap: 20px;
+  align-items: stretch;
 }
 .intro > div .title {
   border-left: 10px solid rgba(13, 41, 81, 1);
   text-align: left;
   padding-left: 5px;
+  color: rgba(13, 41, 81, 1);
 }
 .intro > div img {
-  width: calc(50% - 20px);
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
 }
-.intro > div div {
-  width: 50%;
+.intro > div > div:first-child {
+  display: flex;
+  flex-direction: column;
+  height: 400px;
+  overflow-y: auto;
+  padding-right: 10px;
+}
+.intro > div > div:first-child p {
+  flex: 1;
+  margin-top: 10px;
+}
+/*自定义滚动条样式*/
+.intro > div > div:first-child::-webkit-scrollbar {
+  width: 6px;
+}
+
+.intro > div > div:first-child::-webkit-scrollbar-track {
+  background: #f1f1f1;
+  border-radius: 3px;
+}
+
+.intro > div > div:first-child::-webkit-scrollbar-thumb {
+  background: #888;
+  border-radius: 3px;
+}
+
+.intro > div > div:first-child::-webkit-scrollbar-thumb:hover {
+  background: #555;
 }
 /*常见问题解答*/
 .faq {
